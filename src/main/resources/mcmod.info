@@ -1,0 +1,18 @@
+[
+    {
+        "modid": "jtte",
+        "name": "Journey to the End",
+        "description": "Let's surprise you :)",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": ["Ilya Pirogov"],
+        "credits": "Kinishina and everyone who's helping her",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": [
+            "MinecraftForge,CoFHCore"
+        ]
+    }
+]
