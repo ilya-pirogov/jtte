@@ -19,12 +19,6 @@ public class TileEntityBeacon extends TileCoFHBase {
     }
 
     public TileEntityBeacon(boolean fake) {
-        if (fake) {
-            rtCube /= 2;
-            rtBottomPieces /= 2;
-            rtMiddlePieces /= 2;
-            rtTopPieces /= 2;
-        }
     }
 
     @Override

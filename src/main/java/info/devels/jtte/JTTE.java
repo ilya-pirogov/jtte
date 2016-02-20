@@ -25,7 +25,7 @@ import java.io.File;
 public class JTTE extends BaseMod {
     public static final String modId = "jtte";
     public static final String modName = "Journey to the End";
-    public static final String version = "0.1.2a";
+    public static final String version = "0.1.3";
     public static final String version_max = "0.2.0";
     public static final String dependencies = CoFHCore.version_group;
 
