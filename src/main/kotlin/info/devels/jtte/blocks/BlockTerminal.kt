@@ -4,11 +4,17 @@ import cofh.api.core.IInitializer
 import cpw.mods.fml.common.registry.GameRegistry
 import cpw.mods.fml.relauncher.Side
 import cpw.mods.fml.relauncher.SideOnly
+import info.devels.api.extentions.onServer
+import info.devels.api.extentions.transferAtBlock
+import info.devels.api.extentions.transferToDimension
 import info.devels.jtte.JTTE
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
+import net.minecraft.server.MinecraftServer
+import net.minecraft.world.World
 
 
 class BlockTerminal : Block(Material.iron), IInitializer {
@@ -37,6 +43,19 @@ class BlockTerminal : Block(Material.iron), IInitializer {
     @SideOnly(Side.CLIENT)
     override fun registerBlockIcons(iIconRegister: IIconRegister) {
         super.registerBlockIcons(iIconRegister)
+    }
+
+    override fun onBlockClicked(world: World, x: Int, y: Int, z: Int, player: EntityPlayer) {
+        super.onBlockClicked(world, x, y, z, player)
+
+        world.onServer {
+            if (world.provider.dimensionId != 0) {
+                player.transferToDimension(0, MinecraftServer.getServer().configurationManager)
+            }
+
+            player.transferAtBlock(BlockBeacon.teleportPosition)
+        }
+
     }
 
     companion object {

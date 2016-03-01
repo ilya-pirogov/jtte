@@ -2,6 +2,7 @@ package info.devels.jtte
 
 import cofh.core.CoFHProps
 import cofh.core.util.ConfigHandler
+import cofh.lib.util.position.BlockPosition
 import cofh.mod.BaseMod
 import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.SidedProxy
@@ -9,6 +10,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
 import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.event.*
+import cpw.mods.fml.relauncher.Side
+import info.devels.api.extentions.blockPosition
+import info.devels.jtte.blocks.BlockBeacon
 import info.devels.jtte.blocks.blocksInitialize
 import info.devels.jtte.blocks.blocksPostInit
 import info.devels.jtte.blocks.blocksPreInit
@@ -18,6 +22,7 @@ import info.devels.jtte.core.version as jtteModVersion
 import info.devels.jtte.core.*
 import info.devels.jtte.gui.JTTECreativeTab
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.server.MinecraftServer
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.config.Configuration
 import org.apache.logging.log4j.LogManager
@@ -25,7 +30,11 @@ import java.io.File
 
 
 @Mod(modid = jtteModId, name = jtteModName, version = jtteModVersion, dependencies = dependencies)
-class JTTE : BaseMod() {
+class JTTE : BaseMod {
+    constructor() {
+        instance = this
+    }
+
     @Suppress("unused", "UNUSED_PARAMETER")
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
@@ -53,9 +62,17 @@ class JTTE : BaseMod() {
         proxy.registerRenderInformation()
     }
 
-    @Suppress("unused", "UNUSED_PARAMETER")
+    @Suppress("unused")
     @Mod.EventHandler
     fun loadComplete(event:FMLLoadCompleteEvent) {
+        if (event.side == Side.SERVER) {
+            spawnPosition = MinecraftServer.getServer().worldServerForDimension(0).spawnPoint.blockPosition()
+            BlockBeacon.teleportPosition = spawnPosition
+        } else {
+            // just a stub
+//            spawnPosition = BlockPosition(0, 64, 0)
+        }
+
         config.cleanUp(false, true)
         log.info("Load Complete");
     }
@@ -93,7 +110,11 @@ class JTTE : BaseMod() {
         val log = LogManager.getLogger(jtteModId)
         val config = ConfigHandler(jtteModVersion)
 
+        lateinit var instance: JTTE
+
         lateinit var tab: CreativeTabs
+
+        lateinit var spawnPosition: BlockPosition
 
         @SidedProxy(clientSide = "info.devels.jtte.core.ProxyClient", serverSide = "info.devels.jtte.core.Proxy")
         lateinit var proxy: Proxy

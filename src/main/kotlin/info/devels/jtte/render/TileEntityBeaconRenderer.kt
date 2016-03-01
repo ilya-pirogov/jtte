@@ -1,5 +1,7 @@
 package info.devels.jtte.render
 
+import cpw.mods.fml.relauncher.Side
+import cpw.mods.fml.relauncher.SideOnly
 import info.devels.jtte.entities.TileEntityBeacon
 import info.devels.jtte.models.BeaconModel
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
@@ -9,6 +11,7 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL12
 
 
+@SideOnly(Side.CLIENT)
 class TileEntityBeaconRenderer(protected val model: BeaconModel, protected val texture: ResourceLocation) : TileEntitySpecialRenderer() {
     fun renderTileEntityAt(tile: TileEntityBeacon, x: Double, y: Double, z: Double, n: Float) {
         this.bindTexture(texture)
