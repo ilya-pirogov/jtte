@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
 
 const val modId = "jtte"
 const val modName = "Journey to the End"
-const val version = "0.1.3"
+const val version = "0.1.4"
 const val version_max = "0.2.0"
 const val dependencies = CoFHCore.version_group
 const val version_group = "required-after:$modId@[$version,$version_max);"
