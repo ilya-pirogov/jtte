@@ -4,6 +4,7 @@ import cpw.mods.fml.client.registry.ClientRegistry
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.InputEvent
 import cpw.mods.fml.common.gameevent.TickEvent
+import cpw.mods.fml.relauncher.Side
 import info.devels.jtte.blocks.BlockBeacon
 import info.devels.jtte.entities.TileEntityBeacon
 import info.devels.jtte.models.BeaconModel
@@ -22,7 +23,7 @@ class ProxyClient : Proxy() {
         beaconRenderer = ItemBeaconRenderer()
 
         val renderer = TileEntityBeaconRenderer(
-                BeaconModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "beacon")))
+                BeaconModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "beacon2")))
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBeacon::class.java, renderer)
         MinecraftForgeClient.registerItemRenderer(BlockBeacon.blockBeacon.item, beaconRenderer)

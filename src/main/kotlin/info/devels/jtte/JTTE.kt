@@ -21,8 +21,12 @@ import info.devels.jtte.core.modName as jtteModName
 import info.devels.jtte.core.version as jtteModVersion
 import info.devels.jtte.core.*
 import info.devels.jtte.gui.JTTECreativeTab
+import info.devels.jtte.items.itemsInitialize
+import info.devels.jtte.items.itemsPostInit
+import info.devels.jtte.items.itemsPreInit
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.server.MinecraftServer
+import net.minecraftforge.common.ForgeChunkManager
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.config.Configuration
 import org.apache.logging.log4j.LogManager
@@ -43,13 +47,17 @@ class JTTE : BaseMod {
         tab = JTTECreativeTab()
 
         configOptions()
+
         blocksPreInit()
+        itemsPreInit()
     }
 
     @Suppress("unused", "UNUSED_PARAMETER")
     @Mod.EventHandler
     fun initialize(event: FMLInitializationEvent) {
         blocksInitialize()
+        itemsInitialize()
+
         MinecraftForge.EVENT_BUS.register(proxy)
         FMLCommonHandler.instance().bus().register(proxy)
     }
@@ -58,6 +66,8 @@ class JTTE : BaseMod {
     @Mod.EventHandler
     fun postInit(event:FMLPostInitializationEvent) {
         blocksPostInit()
+        itemsPostInit()
+
         proxy.registerEntities()
         proxy.registerRenderInformation()
     }
@@ -67,11 +77,21 @@ class JTTE : BaseMod {
     fun loadComplete(event:FMLLoadCompleteEvent) {
         if (event.side == Side.SERVER) {
             spawnPosition = MinecraftServer.getServer().worldServerForDimension(0).spawnPoint.blockPosition()
-            BlockBeacon.teleportPosition = spawnPosition
+            print("server: ")
+            println(spawnPosition)
         } else {
             // just a stub
-//            spawnPosition = BlockPosition(0, 64, 0)
+            spawnPosition = BlockPosition(0, 64, 0)
+            print("client: ")
+            println(spawnPosition)
         }
+
+//        ForgeChunkManager.setForcedChunkLoadingCallback(instance, {
+//            list, world ->
+//
+//            for (i in list) {
+//            }
+//        })
 
         config.cleanUp(false, true)
         log.info("Load Complete");

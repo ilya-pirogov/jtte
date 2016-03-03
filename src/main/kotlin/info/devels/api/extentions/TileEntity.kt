@@ -13,3 +13,7 @@ fun TileEntity.blockPosition(): BlockPosition {
     }
     return BlockPosition(xCoord, yCoord, zCoord)
 }
+
+fun TileEntity.markForUpdate() {
+    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+}

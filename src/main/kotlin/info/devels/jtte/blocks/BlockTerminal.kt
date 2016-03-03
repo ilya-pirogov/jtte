@@ -8,6 +8,8 @@ import info.devels.api.extentions.onServer
 import info.devels.api.extentions.transferAtBlock
 import info.devels.api.extentions.transferToDimension
 import info.devels.jtte.JTTE
+import info.devels.jtte.core.spawnPosition
+import info.devels.jtte.entities.TileEntityBeacon
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
@@ -45,17 +47,19 @@ class BlockTerminal : Block(Material.iron), IInitializer {
         super.registerBlockIcons(iIconRegister)
     }
 
-    override fun onBlockClicked(world: World, x: Int, y: Int, z: Int, player: EntityPlayer) {
-        super.onBlockClicked(world, x, y, z, player)
-
+    override fun onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, dx: Float, dy: Float, dz: Float): Boolean {
         world.onServer {
             if (world.provider.dimensionId != 0) {
                 player.transferToDimension(0, MinecraftServer.getServer().configurationManager)
             }
 
-            player.transferAtBlock(BlockBeacon.teleportPosition)
+            if (TileEntityBeacon.beacons.size > 0) {
+                player.transferAtBlock(TileEntityBeacon.beacons.keys.elementAt(0))
+            } else {
+                player.transferAtBlock(spawnPosition)
+            }
         }
-
+        return true
     }
 
     companion object {

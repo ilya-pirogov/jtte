@@ -101,7 +101,11 @@ fun EntityPlayerMP.transferPlayerToDimension(dimension: Int, manager: ServerConf
 }
 
 fun Entity.transferToBlock(pos: BlockPosition) {
-    this.setPosition(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
+    if (this is EntityPlayerMP) {
+        this.setPositionAndUpdate(pos.x + 0.5, pos.y + 0.0, pos.z + 0.5)
+    } else {
+        this.setPosition(pos.x + 0.5, pos.y + 0.0, pos.z + 0.5)
+    }
 }
 
 fun Entity.transferAtBlock(pos: BlockPosition) {
@@ -115,7 +119,11 @@ fun Entity.transferAtBlock(pos: BlockPosition) {
                     && !this.worldObj.getBlock( pos.x + dx, pos.y, pos.z + dz).material.isOpaque
                     && !this.worldObj.getBlock( pos.x + dx, pos.y + 1, pos.z + dz).material.isOpaque) {
 
-                this.setPosition(pos.x + dx.toDouble(), pos.y.toDouble(), pos.z + dz.toDouble())
+                if (this is EntityPlayerMP) {
+                    this.setPositionAndUpdate(pos.x + dx + 0.5, pos.y + 0.0, pos.z + dz + 0.5)
+                } else {
+                    this.setPosition(pos.x + dx + 0.5, pos.y + 0.0, pos.z + dz + 0.5)
+                }
                 return
             }
         }
