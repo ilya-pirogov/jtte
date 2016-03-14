@@ -23,7 +23,7 @@ class ProxyClient : Proxy() {
         beaconRenderer = ItemBeaconRenderer()
 
         val renderer = TileEntityBeaconRenderer(
-                BeaconModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "beacon2")))
+                BeaconModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "beacon")))
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBeacon::class.java, renderer)
         MinecraftForgeClient.registerItemRenderer(BlockBeacon.blockBeacon.item, beaconRenderer)
@@ -45,27 +45,27 @@ class ProxyClient : Proxy() {
     @Suppress("unused", "UNUSED_PARAMETER")
     @SubscribeEvent
     fun onKeyInput(event: InputEvent.KeyInputEvent) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) dbgRotX += 5
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) dbgRotX -= 5
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) dbgRotY += 5
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) dbgRotY -= 5
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD9)) dbgRotZ += 5
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3)) dbgRotZ -= 5
-        } else {
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) dbgTrX += 0.1f
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) dbgTrX -= 0.1f
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) dbgTrY += 0.1f
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) dbgTrY -= 0.1f
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD9)) dbgTrZ += 0.1f
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3)) dbgTrZ -= 0.1f
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4)) dbgScale -= 0.1f
-            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD6)) dbgScale += 0.1f
-        }
+//        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) dbgRotX += 5
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) dbgRotX -= 5
+//
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) dbgRotY += 5
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) dbgRotY -= 5
+//
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD9)) dbgRotZ += 5
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3)) dbgRotZ -= 5
+//        } else {
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7)) dbgTrX += 0.1f
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD1)) dbgTrX -= 0.1f
+//
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)) dbgTrY += 0.1f
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD2)) dbgTrY -= 0.1f
+//
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD9)) dbgTrZ += 0.1f
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD3)) dbgTrZ -= 0.1f
+//
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4)) dbgScale -= 0.1f
+//            if (Keyboard.isKeyDown(Keyboard.KEY_NUMPAD6)) dbgScale += 0.1f
+//        }
     }
 }

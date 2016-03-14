@@ -16,7 +16,7 @@ import net.minecraftforge.common.ForgeChunkManager
 
 
 class TileEntityBeacon : TileCoFHBase() {
-    var ticket: ForgeChunkManager.Ticket? = null
+//    var ticket: ForgeChunkManager.Ticket? = null
 //            by lazy {
 //        ForgeChunkManager.requestTicket(JTTE.instance, MinecraftServer.getServer().worldServerForDimension(0), ForgeChunkManager.Type.NORMAL)
 //    }
@@ -72,22 +72,22 @@ class TileEntityBeacon : TileCoFHBase() {
     private fun activate() {
         worldObj.onServer {
             beacons.putIfAbsent(blockPosition(), this)
-            if (ticket == null) {
-                ticket = ForgeChunkManager.requestTicket(JTTE.instance, worldObj, ForgeChunkManager.Type.NORMAL)
-            }
+//            if (ticket == null) {
+//                ticket = ForgeChunkManager.requestTicket(JTTE.instance, worldObj, ForgeChunkManager.Type.NORMAL)
+//            }
 
-            ForgeChunkManager.forceChunk(ticket, ChunkCoordIntPair(xCoord / 16, zCoord / 16))
+//            ForgeChunkManager.forceChunk(ticket, ChunkCoordIntPair(xCoord / 16, zCoord / 16))
         }
         markForUpdate()
     }
 
     private fun deactivate() {
         worldObj.onServer {
-            ForgeChunkManager.unforceChunk(ticket, ChunkCoordIntPair(xCoord / 16, zCoord / 16))
-            if (ticket != null) {
-                ForgeChunkManager.releaseTicket(ticket)
-                ticket = null
-            }
+//            ForgeChunkManager.unforceChunk(ticket, ChunkCoordIntPair(xCoord / 16, zCoord / 16))
+//            if (ticket != null) {
+//                ForgeChunkManager.releaseTicket(ticket)
+//                ticket = null
+//            }
 
             beacons.remove(blockPosition())
         }

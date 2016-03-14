@@ -88,9 +88,9 @@ class JTTE : BaseMod {
 
 //        ForgeChunkManager.setForcedChunkLoadingCallback(instance, {
 //            list, world ->
-//
-//            for (i in list) {
-//            }
+////
+////            for (i in list) {
+////            }
 //        })
 
         config.cleanUp(false, true)

@@ -12,22 +12,25 @@ import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.item.EnumAction
 import net.minecraft.item.Item
+import net.minecraft.item.ItemFood
 import net.minecraft.item.ItemStack
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.IIcon
 import net.minecraft.world.World
 
 
-class ItemClock: Item, IInitializer {
+class ItemClock: ItemFood, IInitializer {
     lateinit var itemIcons: List<IIcon>
     var time = 0
 
-    constructor() {
+    constructor() : super(0, 0F, false) {
         maxDamage = 0
         maxStackSize = 1
         creativeTab = JTTE.tab
         unlocalizedName = "clock"
+        setAlwaysEdible()
     }
 
     override fun preInit(): Boolean {
@@ -69,7 +72,11 @@ class ItemClock: Item, IInitializer {
         return itemIcon
     }
 
-    override fun onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer): ItemStack {
+//    override fun onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer): ItemStack {
+//        return stack
+//    }
+
+    override fun onEaten(stack: ItemStack?, world: World, player: EntityPlayer): ItemStack? {
         world.onServer {
             if (world.provider.dimensionId != 0) {
                 player.transferToDimension(0, MinecraftServer.getServer().configurationManager)
