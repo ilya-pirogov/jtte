@@ -16,7 +16,7 @@ import net.minecraft.world.World
 import java.util.*
 
 
-class BlockBeacon : BlockCoFHBase(Material.rock) {
+class BlockBeacon : BlockCoFHBase(Material.iron) {
     init {
         setHardness(5.0f)
         setResistance(100f)

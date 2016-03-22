@@ -4,29 +4,36 @@ import cpw.mods.fml.client.registry.ClientRegistry
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.InputEvent
 import cpw.mods.fml.common.gameevent.TickEvent
-import cpw.mods.fml.relauncher.Side
 import info.devels.jtte.blocks.BlockBeacon
 import info.devels.jtte.entities.TileEntityBeacon
+import info.devels.jtte.entities.TileEntityTerminal
+import info.devels.jtte.items.itemClock
 import info.devels.jtte.models.BeaconModel
+import info.devels.jtte.models.TerminalModel
 import info.devels.jtte.render.ItemBeaconRenderer
+import info.devels.jtte.render.ItemClockRenderer
 import info.devels.jtte.render.TileEntityBeaconRenderer
+import info.devels.jtte.render.TileEntityTerminalRenderer
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.MinecraftForgeClient
-import org.lwjgl.input.Keyboard
 
 
 class ProxyClient : Proxy() {
     private var msLastTick: Long = 0
-    lateinit private var beaconRenderer: ItemBeaconRenderer
+    private val beaconRenderer = ItemBeaconRenderer()
+    private val clockRenderer = ItemClockRenderer()
 
     override fun registerRenderInformation() {
-        beaconRenderer = ItemBeaconRenderer()
-
-        val renderer = TileEntityBeaconRenderer(
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBeacon::class.java, TileEntityBeaconRenderer(
                 BeaconModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "beacon")))
+        )
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBeacon::class.java, renderer)
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTerminal::class.java, TileEntityTerminalRenderer(
+                TerminalModel(), ResourceLocation(modId, String.format("textures/entity/%s.png", "terminal")))
+        )
+
         MinecraftForgeClient.registerItemRenderer(BlockBeacon.blockBeacon.item, beaconRenderer)
+        MinecraftForgeClient.registerItemRenderer(itemClock, clockRenderer)
     }
 
     @Suppress("unused", "UNUSED_PARAMETER")
