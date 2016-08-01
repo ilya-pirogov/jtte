@@ -20,6 +20,7 @@ import info.devels.jtte.core.modId as jtteModId
 import info.devels.jtte.core.modName as jtteModName
 import info.devels.jtte.core.version as jtteModVersion
 import info.devels.jtte.core.*
+import info.devels.jtte.curse.Handlers
 import info.devels.jtte.gui.JTTECreativeTab
 import info.devels.jtte.items.itemsInitialize
 import info.devels.jtte.items.itemsPostInit
@@ -59,7 +60,9 @@ class JTTE : BaseMod {
         itemsInitialize()
 
         MinecraftForge.EVENT_BUS.register(proxy)
+        MinecraftForge.EVENT_BUS.register(curseHandlers)
         FMLCommonHandler.instance().bus().register(proxy)
+        FMLCommonHandler.instance().bus().register(curseHandlers)
     }
 
     @Suppress("unused", "UNUSED_PARAMETER")
@@ -112,6 +115,20 @@ class JTTE : BaseMod {
 
         ticksTopPieces = config.get(category, "TicksTopPieces", ticksTopPieces,
                 "Rotation Ticks of Top Pieces")
+
+        category = "Terminal"
+        clockReturnPoint = config.get(category, "ClockReturnPoint", clockReturnPoint.toConfig()).toBlockPosition()
+
+        terminalDimension = config.get(category, "Dimension", terminalDimension)
+
+        category = "Curse"
+        curseFreeZones = config.configuration.get(category, "FreeZones", curseFreeZones.map { it.toConfig() }.toTypedArray()).stringList.map {
+            it.toArea()
+        }.toTypedArray()
+
+        curseDimension = config.get(category, "Dimension", curseDimension)
+
+        curseRadius = 3// config.get(category, "Radius", curseRadius)
     }
 
     override fun getModName(): String? {
@@ -129,6 +146,7 @@ class JTTE : BaseMod {
     companion object {
         val log = LogManager.getLogger(jtteModId)
         val config = ConfigHandler(jtteModVersion)
+        val curseHandlers = Handlers()
 
         lateinit var instance: JTTE
 

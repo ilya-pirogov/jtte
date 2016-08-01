@@ -113,8 +113,10 @@ fun Entity.transferAtBlock(pos: BlockPosition) {
         return
     }
 
-    for (dx in -1..1) {
-        for (dz in -1..1) {
+    val offsetList = listOf(0, -1, 1)
+
+    for (dx in offsetList) {
+        for (dz in offsetList) {
             if (World.doesBlockHaveSolidTopSurface(this.worldObj, pos.x + dx, pos.y - 1, pos.z + dz)
                     && !this.worldObj.getBlock( pos.x + dx, pos.y, pos.z + dz).material.isOpaque
                     && !this.worldObj.getBlock( pos.x + dx, pos.y + 1, pos.z + dz).material.isOpaque) {

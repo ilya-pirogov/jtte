@@ -1,6 +1,7 @@
 package info.devels.jtte.models
 
 import net.minecraft.client.model.ModelRenderer
+import net.minecraft.client.renderer.Tessellator
 import net.minecraft.entity.Entity
 import org.lwjgl.opengl.GL11
 
@@ -26,6 +27,9 @@ class TerminalModel : BaseTileModel() {
     var a4: ModelRenderer
     var a5: ModelRenderer
     var a6: ModelRenderer
+    var stub: ModelRenderer
+
+    var screenOffsetX = 0.0
 
     init {
         this.textureWidth = 511
@@ -80,11 +84,65 @@ class TerminalModel : BaseTileModel() {
         this.a1 = ModelRenderer(this, 0, 0)
         this.a1.setRotationPoint(-16.0f, -17.0f, -16.0f)
         this.a1.addBox(0.0f, 53.0f, 0.0f, 32, 12, 32, 0.0f)
+        this.stub = ModelRenderer(this, 0, 0)
+        this.stub.setRotationPoint(0f, 0f, 0f)
+        this.stub.addBox(0.0f, 0.0f, 0.0f, 32, 32, 32, 0.0f)
     }
 
     override fun render(entity: Entity?, f: Float, f1: Float, f2: Float, f3: Float, f4: Float, f5: Float) {
         GL11.glPushMatrix()
+        GL11.glEnable(GL11.GL_BLEND)
+
         GL11.glScaled(1.0 / modelScale[0], 1.0 / modelScale[1], 1.0 / modelScale[2])
+
+        this.a4.render(f5)
+        this.a6.render(f5)
+        this.a3.render(f5)
+        this.a7.render(f5)
+        this.a5.render(f5)
+        this.a2.render(f5)
+        GL11.glPushMatrix()
+        GL11.glTranslatef(this.a8.offsetX, this.a8.offsetY, this.a8.offsetZ)
+        GL11.glTranslatef(this.a8.rotationPointX * f5, this.a8.rotationPointY * f5, this.a8.rotationPointZ * f5)
+        GL11.glScaled(1.0, 1.0, 0.5)
+        GL11.glTranslatef(-this.a8.offsetX, -this.a8.offsetY, -this.a8.offsetZ)
+        GL11.glTranslatef(-this.a8.rotationPointX * f5, -this.a8.rotationPointY * f5, -this.a8.rotationPointZ * f5)
+        this.a8.render(f5)
+        GL11.glPopMatrix()
+        this.a9.render(f5)
+        this.a1.render(f5)
+
+        GL11.glPushMatrix()
+        GL11.glTranslatef(this.front.offsetX, this.front.offsetY, this.front.offsetZ)
+        GL11.glTranslatef(this.front.rotationPointX * f5, this.front.rotationPointY * f5, this.front.rotationPointZ * f5)
+        GL11.glScaled(1.0, 1.0, 0.2)
+        GL11.glTranslatef(-this.front.offsetX, -this.front.offsetY, -this.front.offsetZ)
+        GL11.glTranslatef(-this.front.rotationPointX * f5, -this.front.rotationPointY * f5, -this.front.rotationPointZ * f5)
+
+        back.setTextureOffset(466, 132)
+
+        this.front.render(f5)
+        GL11.glPopMatrix()
+        GL11.glPushMatrix()
+
+        val t = Tessellator.instance;
+        t.startDrawingQuads()
+
+        val u = (screenOffsetX / textureWidth)
+        val U = u + (30.0 / textureWidth)
+        val v = (132.0 / textureHeight)
+        val V = v + (32.0 / textureHeight)
+
+        t.addVertexWithUV(-1.0, -0.19, 0.05, u, v)
+        t.addVertexWithUV(-1.0, 1.82, 0.05, u, V)
+        t.addVertexWithUV(1.0, 1.82, 0.05, U, V)
+        t.addVertexWithUV(1.0, -0.19, 0.05, U, v)
+
+        t.draw()
+
+        GL11.glPopMatrix()
+        GL11.glDisable(GL11.GL_BLEND)
+
         GL11.glPushMatrix()
         GL11.glTranslatef(this.f3.offsetX, this.f3.offsetY, this.f3.offsetZ)
         GL11.glTranslatef(this.f3.rotationPointX * f5, this.f3.rotationPointY * f5, this.f3.rotationPointZ * f5)
@@ -101,10 +159,7 @@ class TerminalModel : BaseTileModel() {
         GL11.glTranslatef(-this.f2.rotationPointX * f5, -this.f2.rotationPointY * f5, -this.f2.rotationPointZ * f5)
         this.f2.render(f5)
         GL11.glPopMatrix()
-        this.a4.render(f5)
-        this.a6.render(f5)
-        this.a3.render(f5)
-        this.a7.render(f5)
+
         GL11.glPushMatrix()
         GL11.glTranslatef(this.f4.offsetX, this.f4.offsetY, this.f4.offsetZ)
         GL11.glTranslatef(this.f4.rotationPointX * f5, this.f4.rotationPointY * f5, this.f4.rotationPointZ * f5)
@@ -112,9 +167,6 @@ class TerminalModel : BaseTileModel() {
         GL11.glTranslatef(-this.f4.offsetX, -this.f4.offsetY, -this.f4.offsetZ)
         GL11.glTranslatef(-this.f4.rotationPointX * f5, -this.f4.rotationPointY * f5, -this.f4.rotationPointZ * f5)
         this.f4.render(f5)
-        GL11.glPopMatrix()
-        this.head.render(f5)
-        GL11.glPushMatrix()
         GL11.glTranslatef(this.f1.offsetX, this.f1.offsetY, this.f1.offsetZ)
         GL11.glTranslatef(this.f1.rotationPointX * f5, this.f1.rotationPointY * f5, this.f1.rotationPointZ * f5)
         GL11.glScaled(1.0, 1.0, 0.3)
@@ -122,34 +174,7 @@ class TerminalModel : BaseTileModel() {
         GL11.glTranslatef(-this.f1.rotationPointX * f5, -this.f1.rotationPointY * f5, -this.f1.rotationPointZ * f5)
         this.f1.render(f5)
         GL11.glPopMatrix()
-        GL11.glPushMatrix()
-        GL11.glTranslatef(this.front.offsetX, this.front.offsetY, this.front.offsetZ)
-        GL11.glTranslatef(this.front.rotationPointX * f5, this.front.rotationPointY * f5, this.front.rotationPointZ * f5)
-        GL11.glScaled(1.0, 1.0, 0.2)
-        GL11.glTranslatef(-this.front.offsetX, -this.front.offsetY, -this.front.offsetZ)
-        GL11.glTranslatef(-this.front.rotationPointX * f5, -this.front.rotationPointY * f5, -this.front.rotationPointZ * f5)
-        this.front.render(f5)
-        GL11.glPopMatrix()
-        this.a5.render(f5)
-        GL11.glPushMatrix()
-        GL11.glTranslatef(this.back.offsetX, this.back.offsetY, this.back.offsetZ)
-        GL11.glTranslatef(this.back.rotationPointX * f5, this.back.rotationPointY * f5, this.back.rotationPointZ * f5)
-        GL11.glScaled(1.0, 1.0, 0.3)
-        GL11.glTranslatef(-this.back.offsetX, -this.back.offsetY, -this.back.offsetZ)
-        GL11.glTranslatef(-this.back.rotationPointX * f5, -this.back.rotationPointY * f5, -this.back.rotationPointZ * f5)
-        this.back.render(f5)
-        GL11.glPopMatrix()
-        this.a2.render(f5)
-        GL11.glPushMatrix()
-        GL11.glTranslatef(this.a8.offsetX, this.a8.offsetY, this.a8.offsetZ)
-        GL11.glTranslatef(this.a8.rotationPointX * f5, this.a8.rotationPointY * f5, this.a8.rotationPointZ * f5)
-        GL11.glScaled(1.0, 1.0, 0.5)
-        GL11.glTranslatef(-this.a8.offsetX, -this.a8.offsetY, -this.a8.offsetZ)
-        GL11.glTranslatef(-this.a8.rotationPointX * f5, -this.a8.rotationPointY * f5, -this.a8.rotationPointZ * f5)
-        this.a8.render(f5)
-        GL11.glPopMatrix()
-        this.a9.render(f5)
-        this.a1.render(f5)
+
         GL11.glPopMatrix()
     }
 
