@@ -31,7 +31,7 @@ class ItemClockRenderer : IItemRenderer {
         this.bindTexture(texture)
 
         val world = Minecraft.getMinecraft().theWorld
-        val time = (world.worldTime + 6000.0) % 24000
+        val time = (world.worldTime + (dayLength / 4)) % dayLength
         val hours = (time / 1000).toInt();
         val minutes = (((time % 1000) * 60) / 1000).toInt()
         model.text = "%02d:%02d".format(hours, minutes)

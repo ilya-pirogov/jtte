@@ -11,7 +11,7 @@ import kotlin.reflect.KProperty
 
 const val modId = "jtte"
 const val modName = "Journey to the End"
-const val version = "0.1.7"
+const val version = "0.1.8"
 const val version_max = "0.2.0"
 const val dependencies = CoFHCore.version_group
 const val version_group = "required-after:$modId@[$version,$version_max);"
@@ -21,8 +21,12 @@ var ticksBottomPieces = 90
 var ticksMiddlePieces = 60
 var ticksTopPieces = 40
 var curseDimension = 0
-var curseRadius = 16
+var curseRadius = 24
+var dayLength = 24000
+var curseStartTime = 7000
+var curseEndTime = 8000
 var terminalDimension = 0
+var cursedBlocksWhitelist = arrayOf("tile.stone", "tile.dirt", "tile.grass", "tile.cobblestone", "tile.sand", "tile.gravel", "tile.farmland", "tile.snow", "tile.clay", "tile.netherrack", "tile.soul_sand")
 var clockReturnPoint = BlockPosition(1850, 48, 2149)
 var curseFreeZones = arrayOf(Area(clockReturnPoint.x - 16, clockReturnPoint.x + 16, 0, 255, clockReturnPoint.z - 16, clockReturnPoint.z + 16))
 

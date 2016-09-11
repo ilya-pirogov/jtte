@@ -92,6 +92,7 @@ class TerminalModel : BaseTileModel() {
     override fun render(entity: Entity?, f: Float, f1: Float, f2: Float, f3: Float, f4: Float, f5: Float) {
         GL11.glPushMatrix()
         GL11.glEnable(GL11.GL_BLEND)
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
         GL11.glScaled(1.0 / modelScale[0], 1.0 / modelScale[1], 1.0 / modelScale[2])
 
@@ -142,6 +143,7 @@ class TerminalModel : BaseTileModel() {
 
         GL11.glPopMatrix()
         GL11.glDisable(GL11.GL_BLEND)
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
         GL11.glPushMatrix()
         GL11.glTranslatef(this.f3.offsetX, this.f3.offsetY, this.f3.offsetZ)

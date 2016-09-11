@@ -12,6 +12,7 @@ import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.event.*
 import cpw.mods.fml.relauncher.Side
 import info.devels.api.extentions.blockPosition
+import info.devels.csmdashboard.commands.JtteCommand
 import info.devels.jtte.blocks.BlockBeacon
 import info.devels.jtte.blocks.blocksInitialize
 import info.devels.jtte.blocks.blocksPostInit
@@ -25,6 +26,7 @@ import info.devels.jtte.gui.JTTECreativeTab
 import info.devels.jtte.items.itemsInitialize
 import info.devels.jtte.items.itemsPostInit
 import info.devels.jtte.items.itemsPreInit
+import info.devels.jtte.utils.FastBitSet
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.server.MinecraftServer
 import net.minecraftforge.common.ForgeChunkManager
@@ -51,6 +53,11 @@ class JTTE : BaseMod {
 
         blocksPreInit()
         itemsPreInit()
+
+        val bs = FastBitSet(256)
+        bs[127] = true
+        println(bs[127])
+        println(bs.getEnabledBits())
     }
 
     @Suppress("unused", "UNUSED_PARAMETER")
@@ -78,26 +85,14 @@ class JTTE : BaseMod {
     @Suppress("unused")
     @Mod.EventHandler
     fun loadComplete(event:FMLLoadCompleteEvent) {
-        if (event.side == Side.SERVER) {
-            spawnPosition = MinecraftServer.getServer().worldServerForDimension(0).spawnPoint.blockPosition()
-            print("server: ")
-            println(spawnPosition)
-        } else {
-            // just a stub
-            spawnPosition = BlockPosition(0, 64, 0)
-            print("client: ")
-            println(spawnPosition)
-        }
-
-//        ForgeChunkManager.setForcedChunkLoadingCallback(instance, {
-//            list, world ->
-////
-////            for (i in list) {
-////            }
-//        })
-
         config.cleanUp(false, true)
-        log.info("Load Complete");
+        log.info("Load Complete")
+    }
+
+    @Suppress("unused")
+    @Mod.EventHandler
+    fun serverLoad(event: FMLServerStartingEvent) {
+        event.registerServerCommand(JtteCommand())
     }
 
     private fun configOptions() {
@@ -128,7 +123,16 @@ class JTTE : BaseMod {
 
         curseDimension = config.get(category, "Dimension", curseDimension)
 
-        curseRadius = 3// config.get(category, "Radius", curseRadius)
+        curseRadius = config.get(category, "Radius", curseRadius)
+
+        dayLength = config.get(category, "DayLength", dayLength)
+
+        curseStartTime = config.get(category, "CurseStartTime", curseStartTime)
+
+        curseEndTime = config.get(category, "CurseEndTime", curseEndTime)
+
+        cursedBlocksWhitelist = config.configuration.get(category, "CursedBlocksWhitelist", cursedBlocksWhitelist).stringList
+
     }
 
     override fun getModName(): String? {
@@ -152,7 +156,7 @@ class JTTE : BaseMod {
 
         lateinit var tab: CreativeTabs
 
-        lateinit var spawnPosition: BlockPosition
+//        lateinit var spawnPosition: BlockPosition
 
         @SidedProxy(clientSide = "info.devels.jtte.core.ProxyClient", serverSide = "info.devels.jtte.core.Proxy")
         lateinit var proxy: Proxy

@@ -1,3 +1,11 @@
 itemGroup.jtte=Journey to the End
 tile.jtte.beacon.name=Beacon
 tile.jtte.terminal.name=Terminal
+tile.jtte.cursedDirt.name=Cursed Dirt
+item.crystal1.name=Crystal 1
+item.crystal2.name=Crystal 2
+item.crystal3.name=Crystal 3
+item.crystal4.name=Crystal 4
+item.crystal5.name=Crystal 5
+item.crystal6.name=Crystal 6
+item.crystal7.name=Crystal 7

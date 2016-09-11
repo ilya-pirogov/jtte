@@ -5,6 +5,7 @@ import cofh.lib.util.position.BlockPosition
 import info.devels.api.extentions.blockPosition
 import info.devels.jtte.JTTE
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.World
 
 
 val spawnPosition: BlockPosition
@@ -39,4 +40,8 @@ fun BlockPosition.toConfig(): String {
 
 fun Area.toConfig(): String {
     return "%d %d %d   %d %d %d".format(xMin, yMin, zMin, xMax, yMax, zMax)
+}
+
+fun World.getClockTime(): Long {
+    return (this.worldTime + (dayLength / 4)) % dayLength
 }

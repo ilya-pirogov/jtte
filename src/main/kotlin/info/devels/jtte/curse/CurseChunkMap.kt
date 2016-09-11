@@ -10,7 +10,7 @@ class CurseChunkMap() {
         bitSet.setArray(init)
     }
 
-    fun markBits(dx1: Int, dz1: Int, dx2: Int, dz2: Int, chX: Int, chZ: Int): Boolean {
+    fun markBits(dx1: Int, dz1: Int, dx2: Int, dz2: Int): Boolean {
         var changed = false
 
         if (bitSet.isFull) {
@@ -20,9 +20,6 @@ class CurseChunkMap() {
         for (dx in dx1..dx2) {
             for (dz in dz1..dz2) {
                 changed = !bitSet[dx + dz * 16]
-                if (changed) {
-//                    Minecraft.getMinecraft().theWorld.markBlockRangeForRenderUpdate(chX * 16 + dx, 0, chZ * 16 + dz, chX * 16 + dx, 256, chZ * 16 + dz)
-                }
                 bitSet[dx + dz * 16] = true
             }
         }
@@ -32,6 +29,14 @@ class CurseChunkMap() {
 
     fun test(dx: Int, dz: Int): Boolean {
         return bitSet[dx + dz * 16]
+    }
+
+    fun copy(): CurseChunkMap {
+        val bs = IntArray(bitSet.data.size)
+        for (i in 0..bitSet.data.size - 1) {
+            bs[i] = bitSet.data[i]
+        }
+        return CurseChunkMap(bs)
     }
 
     inline fun xzBit(dx: Int, dz: Int, cb: (bit: Int) -> Boolean) {
